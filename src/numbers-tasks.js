@@ -19,7 +19,7 @@
  *   5, 5  => 25
  */
 function getRectangleArea(width, height) {
-  width * height;
+  return width * height;
 }
 
 /**
@@ -189,9 +189,7 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-  const divisor = Math.pow(10, pow);
-  // Divide, round, and multiply to achieve the desired rounding
-  return Math.round(num / divisor) * divisor;
+  return Math.round(num / 10 ** pow) * 10 ** pow;
 }
 
 /**
@@ -213,17 +211,11 @@ function roundToPowerOfTen(num, pow) {
  */
 
 function isPrime(n) {
-  if (n <= 1) {
-    return false;
-  }
-
-  // Check divisibility from 2 to the square root of n
-  for (let i = 2; i <= Math.sqrt(n); i++) {
-    if (n % i === 0) {
+  for (let i = 2; i <= n / 2; i += 1) {
+    if (!(n % i)) {
       return false;
     }
   }
-
   return true;
 }
 
@@ -243,13 +235,10 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  const convertedNumber = Number(value);
-
-  // Check if the conversion was successful using isNaN
-  if (!isNaN(convertedNumber)) {
-    return convertedNumber;
+  const res = Number(value);
+  if (typeof res === 'number' && !Number.isNaN(res)) {
+    return res;
   }
-
   return def;
 }
 
@@ -265,7 +254,7 @@ function toNumber(value, def) {
  *   0  => 0
  */
 function getCube(num) {
-  return Math.pow(num, 3);
+  return num ** 3;
 }
 
 /**
@@ -282,22 +271,16 @@ function getCube(num) {
  *   10 => 55
  */
 function getFibonacciNumber(index) {
-  if (index === 0) {
-    return 0;
-  } else if (index === 1) {
-    return 1;
+  if (index === 0) return 0;
+  if (index === 1) return 1;
+  let a = 1;
+  let b = 1;
+  for (let i = 3; i <= index; i += 1) {
+    const c = a + b;
+    a = b;
+    b = c;
   }
-
-  let prev = 0;
-  let current = 1;
-
-  for (let i = 2; i <= index; i++) {
-    const next = prev + current;
-    prev = current;
-    current = next;
-  }
-
-  return current;
+  return b;
 }
 
 /**
@@ -312,8 +295,11 @@ function getFibonacciNumber(index) {
  *   1  => 1
  */
 function getSumToN(n) {
-  return (n * (n + 1)) / 2;
-
+  let result = 0;
+  for (let i = 1; i <= n; i += 1) {
+    result += i;
+  }
+  return result;
 }
 
 /**
@@ -328,12 +314,9 @@ function getSumToN(n) {
  *   5   => 5  // 5
  */
 function getSumOfDigits(num) {
-  const result = num
-    .toString()
-    .split('')
-    .map((item) => +item)
-    .reduce((acc, item) => acc + item);
-  return result;
+  const str = num.toString();
+  const spl = str.split('');
+  return spl.reduce((sum, numb) => sum + +numb, 0);
 }
 
 /**
@@ -348,7 +331,7 @@ function getSumOfDigits(num) {
  *   15  => false
  */
 function isPowerOfTwo(num) {
-  return num > 0 && (num & (num - 1)) === 0;
+  return Math.log2(num) % 1 === 0;
 }
 
 /**
@@ -377,7 +360,7 @@ function getSine(num) {
  * 2, 2    => '10'
  */
 function numberToStringInBase(number, base) {
-    return number.toString(base);
+  return number.toString(base);
 }
 
 /**
@@ -455,9 +438,8 @@ function getNumberValue(number) {
  * '5'      => false
  */
 function isNumber(number) {
-  return typeof number === 'number' && isFinite(number) && !isNaN(number);
+  return Number.isFinite(number);
 }
-
 /**
  * Returns a boolean value indicating whether a number is an integer or not.
  *
@@ -637,7 +619,7 @@ function getRandomInteger(min, max) {
  * 3, 4 => 5
  */
 function getHypotenuse(a, b) {
-  return Math.sqrt(a**2 + b**2);
+  return Math.hypot(a, b);
 }
 
 /**
@@ -654,13 +636,13 @@ function getHypotenuse(a, b) {
  * 15 => 8
  */
 function getCountOfOddNumbers(number) {
-  let count = 0;
-  for (let i = 0; i <= number; i++) {
-    if (i % 2 !== 0) {
-      count++;
+  let result = 0;
+  for (let i = 1; i <= Math.abs(number); i += 1) {
+    if (i % 2) {
+      result += 1;
     }
   }
-  return count;
+  return result;
 }
 
 module.exports = {
